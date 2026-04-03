@@ -1,0 +1,101 @@
+.editPage {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.editPage::before {
+  content: "";
+  position: absolute;
+  top: 10%; right: 10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.15), transparent 60%);
+  pointer-events: none;
+}
+
+.editCard {
+  width: 100%;
+  max-width: 650px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow-main);
+  position: relative;
+  z-index: 10;
+}
+
+.editCard h2 {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, white, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.editCard input,
+.editCard textarea,
+.editCard select {
+  width: 100%;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  font-size: 15px;
+  color: white;
+  margin-bottom: 20px;
+  transition: var(--transition-fast);
+}
+
+.editCard input:focus,
+.editCard textarea:focus,
+.editCard select:focus {
+  outline: none;
+  border-color: #f59e0b;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+}
+
+.editCard select option {
+  background: var(--bg-main);
+  color: white;
+}
+
+.previewImg {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.updateBtn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border: none;
+  color: white;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+}
+
+.updateBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(217, 119, 6, 0.5);
+}

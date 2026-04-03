@@ -1,0 +1,9 @@
+const express = require("express");
+const router = express.Router();
+
+const { getDashboardAnalytics } = require("../controllers/dashboardController");
+const { protect } = require("../middleware/auth");
+
+router.get("/analytics", getDashboardAnalytics);
+
+module.exports = router;

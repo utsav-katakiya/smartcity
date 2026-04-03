@@ -1,0 +1,415 @@
+/* PAGE */
+.addComplaintPage {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.addComplaintPage::before {
+  content: "";
+  position: absolute;
+  top: 10%; right: 10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent 60%);
+  pointer-events: none;
+}
+
+.addComplaintPage::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.1), transparent 60%);
+  pointer-events: none;
+}
+
+/* CARD */
+.complaintCard {
+  width: 100%;
+  max-width: 800px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow-main), 0 0 20px rgba(59, 130, 246, 0.05);
+  position: relative;
+  z-index: 10;
+}
+
+/* TITLE */
+.complaintCard h2 {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sub {
+  color: var(--text-muted);
+  font-size: 16px;
+  margin-bottom: 40px;
+}
+
+/* FORM SECTIONS */
+.section {
+  margin-bottom: 30px;
+}
+
+.complaintCard h3 {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin: 20px 0 10px;
+  font-weight: 500;
+}
+
+/* INPUTS */
+input, textarea, select {
+  width: 100%;
+  padding: 16px;
+  background: var(--bg-main);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  font-size: 15px;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  transition: var(--transition-fast);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--glass-hover);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+select option {
+  background: var(--bg-main);
+  color: var(--text-primary);
+}
+
+/* CUSTOM DROPDOWN */
+.custom-select {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.select-selected {
+  width: 100%;
+  padding: 16px;
+  background: var(--bg-main);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  font-size: 15px;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition-fast);
+  text-align: left;
+}
+
+.select-selected:hover {
+  background: var(--glass-hover);
+  border-color: var(--primary);
+}
+
+.select-selected.active {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.select-selected.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--glass-border);
+}
+
+.select-items {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--bg-main);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: dropdownFade 0.2s ease-out;
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.select-items div {
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  color: var(--text-primary);
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.select-items div:last-child {
+  border-bottom: none;
+}
+
+.select-items div:hover {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+/* Scrollbar styling for dropdown */
+.select-items::-webkit-scrollbar {
+  width: 6px;
+}
+.select-items::-webkit-scrollbar-track {
+  background: transparent;
+}
+.select-items::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 10px;
+}
+.select-items::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+.chevron {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  margin-left: 10px;
+}
+
+.chevron.up {
+  transform: rotate(-135deg);
+}
+
+/* TEXTAREA */
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* MAP STYLES */
+.mapContainer {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  position: relative;
+}
+
+.complaintMap {
+  height: 350px;
+  width: 100%;
+  z-index: 5;
+}
+
+
+.addressField {
+  background: rgba(0,0,0,0.03) !important;
+  color: var(--text-primary) !important;
+  font-size: 14px;
+  line-height: 1.6;
+  border-style: solid;
+  cursor: text;
+  min-height: 80px !important;
+}
+
+.loadingHint {
+  font-size: 13px;
+  color: var(--primary);
+  margin-bottom: 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.addressHint {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: -8px;
+  margin-bottom: 20px;
+}
+
+.dark .addressField {
+  background: rgba(255,255,255,0.03) !important;
+}
+
+.formGroup h3 {
+  margin-top: 25px;
+}
+
+/* MODERN UPLOAD BOX */
+.uploadContainer {
+  margin-top: 15px;
+}
+
+.uploadBox {
+  width: 100%;
+  height: 200px;
+  background: var(--bg-main);
+  border: 2px dashed var(--glass-border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  gap: 12px;
+}
+
+.uploadBox:hover {
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.05);
+  transform: translateY(-2px);
+}
+
+.uploadBox .cameraIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.uploadBox:hover .cameraIcon {
+  transform: scale(1.1);
+  color: var(--primary);
+}
+
+.uploadBox h4 {
+  color: var(--text-primary);
+  margin: 0;
+  font-size: 16px;
+}
+
+.uploadBox p {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.imagePreviewWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.removeImgBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+  z-index: 20;
+  transition: var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.removeImgBtn:hover {
+  background: #ef4444;
+  transform: scale(1.1);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+
+/* SUBMIT BUTTON */
+.submitBtn {
+  width: 100%;
+  padding: 16px;
+  margin-top: 30px;
+  border: none;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  cursor: pointer;
+  transition: var(--transition-normal);
+  box-shadow: var(--glow-primary);
+}
+
+.submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+}
+
+/* MESSAGE */
+.successMsg {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.errorMsg {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+/* RESPONSIVE */
+@media(max-width: 768px) {
+  .addComplaintPage { padding: 40px 15px; }
+  .complaintCard { padding: 24px; }
+}

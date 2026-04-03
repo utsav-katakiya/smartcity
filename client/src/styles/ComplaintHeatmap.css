@@ -1,0 +1,97 @@
+.heatmap-container {
+    margin-top: 30px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.heatmap-header {
+    padding: 25px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.heatmap-title {
+    margin: 0;
+}
+
+.heatmap-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+
+.heatmap-map-wrapper {
+    height: 450px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.heatmap-map {
+    height: 100%;
+    width: 100%;
+}
+
+.heatmap-marker-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.heatmap-marker-critical {
+    background-color: #ef4444;
+}
+
+.heatmap-marker-active {
+    background-color: #f59e0b;
+}
+
+.heatmap-marker-stable {
+    background-color: #10b981;
+}
+
+.heatmap-popup-container {
+    text-align: center;
+    min-width: 120px;
+}
+
+.heatmap-popup-title {
+    margin: 0 0 5px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.heatmap-popup-count {
+    margin: 0;
+    font-weight: bold;
+    color: #666;
+}
+
+.heatmap-popup-status {
+    margin-top: 10px;
+    font-size: 11px;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.heatmap-status-critical {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.heatmap-status-active {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.heatmap-status-stable {
+    background: #dcfce7;
+    color: #166534;
+}

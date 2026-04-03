@@ -1,0 +1,75 @@
+.signupPage {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-main);
+  position: relative;
+  overflow: hidden;
+}
+
+.signupPage::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 60%);
+  z-index: 0;
+}
+
+/* Clerk card styling overrides */
+.cl-card {
+  border-radius: 20px !important;
+  background: rgba(15, 23, 42, 0.7) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(139, 92, 246, 0.2) !important;
+}
+
+.cl-headerTitle, .cl-headerSubtitle, .cl-socialButtonsBlockButtonText, .cl-dividerText, .cl-formFieldLabel {
+  color: white !important;
+}
+
+/* primary button */
+.cl-formButtonPrimary {
+  background: linear-gradient(135deg, var(--secondary), var(--primary)) !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  padding: 12px !important;
+  box-shadow: var(--glow-secondary) !important;
+}
+
+.cl-formButtonPrimary:hover {
+  background: linear-gradient(135deg, #7c3aed, var(--primary)) !important;
+}
+
+/* input fields */
+.cl-formFieldInput {
+  border-radius: 12px !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  padding: 12px !important;
+}
+
+.cl-formFieldInput:focus {
+  border-color: var(--secondary) !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important;
+}
+
+/* Social login button */
+.cl-socialButtonsBlockButton {
+  border-radius: 12px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.cl-socialButtonsBlockButton:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.cl-footerActionLink {
+  color: var(--secondary-glow) !important;
+}

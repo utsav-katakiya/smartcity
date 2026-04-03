@@ -1,0 +1,27 @@
+.upvoteBtn {
+  margin-left: 10px;
+  background: #ff6b00;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.upvoteBtn:hover:not(:disabled) {
+  background: #e55a00;
+  transform: translateY(-2px);
+}
+
+.upvoteBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.upvoteBtn.voted {
+  background: #e55a00;
+  cursor: default;
+}

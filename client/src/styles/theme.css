@@ -1,0 +1,198 @@
+/* ===== GLOBAL THEME REPLACEMENTS FOR COMPATIBILITY ===== */
+
+/* Use the variables we defined in index.css */
+body {
+  background-color: var(--bg-main) !important;
+  color: var(--text-primary);
+}
+
+/* ===== SEARCH BAR ===== */
+.search-input {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-hover);
+  color: var(--text-primary);
+  font-size: 16px;
+  margin-bottom: 20px;
+  outline: none;
+  transition: var(--transition-fast);
+  backdrop-filter: blur(10px);
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background: var(--glass-bg);
+}
+
+/* page container */
+.page-container {
+  min-height: 100vh;
+  background-color: transparent;
+  padding: 40px 5%;
+}   
+
+/* heading */
+.page-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* dropdown */
+.filter-select, .sort-select {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-hover);
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: var(--transition-fast);
+  backdrop-filter: blur(10px);
+}
+
+.filter-select:focus, .sort-select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.filter-select option, .sort-select option {
+  background: var(--bg-main);
+  color: var(--text-primary);
+}
+
+/* complaint card */
+.complaint-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid var(--glass-border);
+  transition: var(--transition-normal);
+  box-shadow: var(--shadow-main);
+}
+
+.complaint-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15);
+}
+
+.complaint-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.complaint-info p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+/* ===== RESPONSIVE GRID ===== */
+.complaints-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+.details-btn {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--primary-glow);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: var(--transition-fast);
+}
+
+.details-btn:hover {
+  background: rgba(59, 130, 246, 0.3);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.edit-btn {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: var(--transition-fast);
+  margin-top: 10px;
+}
+
+.edit-btn:hover {
+  background: rgba(245, 158, 11, 0.3);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.complaint-form {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  margin: 0 auto;
+}
+
+.complaint-form input,
+.complaint-form select,
+.complaint-form textarea {
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: var(--bg-main);
+  color: var(--text-primary);
+  font-size: 15px;
+  transition: var(--transition-fast);
+}
+
+.complaint-form input:focus,
+.complaint-form select:focus,
+.complaint-form textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--bg-main);
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: var(--transition-normal);
+  box-shadow: var(--glow-primary);
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+}

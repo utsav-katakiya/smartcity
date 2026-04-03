@@ -1,0 +1,113 @@
+/* DEPARTMENT MANAGEMENT STYLES */
+
+/* Section Overrides */
+.admin-stats-grid {
+  margin-bottom: 40px;
+}
+
+/* Department Stat Card Customization */
+.dept-stat-card {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 15px !important;
+}
+
+.dept-stat-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.dept-stat-icon {
+  font-size: 24px !important;
+  width: 45px !important;
+  height: 45px !important;
+}
+
+.dept-stat-info h3 {
+  font-size: 12px !important;
+  margin: 0;
+}
+
+.dept-stat-info h2 {
+  font-size: 20px !important;
+  margin: 5px 0 0 0;
+}
+
+/* Workforce Grid */
+.workforce-stats {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.stat-box {
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-box.assigned {
+  background: rgba(59, 130, 246, 0.05);
+  border-color: rgba(59, 130, 246, 0.1);
+}
+
+.stat-box.unassigned {
+  background: rgba(245, 158, 11, 0.05);
+  border-color: rgba(245, 158, 11, 0.1);
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  display: block;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.stat-box.assigned .stat-value { color: #3b82f6; }
+.stat-box.unassigned .stat-value { color: #f59e0b; }
+
+/* Progress Bar */
+.dept-progress-wrapper {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.dept-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.5s ease;
+}
+
+.dept-rate-text {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Directory Table Overrides */
+.dept-directory-intro {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+/* Operational Badge Override */
+.priority-badge.OPERATIONAL {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.priority-badge.CRITICAL {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
