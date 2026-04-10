@@ -1,6 +1,6 @@
 import React from "react";
 import { SignIn } from "@clerk/clerk-react";
-import "../styles/login.css";
+import "../styles/Login.css";
 
 const Login = () => {
   return (
