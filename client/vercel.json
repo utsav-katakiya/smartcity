@@ -1,1 +1,8 @@
-smartcity/client/vercel.json
+{
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
