@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import "./AdminComplaints.css"; // Reuse existing admin styles
 import "../user/complaintDetails.css"; // Reuse card-based details style
+import { API } from "../../config/api";
 
 const AdminDetailPage = () => {
   const { id } = useParams();
@@ -18,7 +19,7 @@ const AdminDetailPage = () => {
       if (!user || user.id === undefined) return;
       try {
         const token = await getToken();
-        const res = await fetch(`http://localhost:5000/api/admin/complaints/${id}`, {
+        const res = await fetch(`${API}/api/admin/complaints/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "X-Clerk-User-Id": user.id
@@ -51,7 +52,7 @@ const AdminDetailPage = () => {
 
         {complaint.image && (
           <img
-            src={complaint.image?.startsWith("http") ? complaint.image : `http://localhost:5000/uploads/${complaint.image}`}
+            src={complaint.image?.startsWith("http") ? complaint.image : `${API}/uploads/${complaint.image}`}
             alt="complaint"
             className="complaintImage"
           />

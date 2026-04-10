@@ -3,6 +3,8 @@ import { useAuth, useUser } from "@clerk/clerk-react";
 import "../styles/Admin.css"; // Reuse some styles for clean look
 import "../styles/NotificationPanel.css";
 
+import { API } from "../config/api";
+
 const NotificationPanel = () => {
   const [notifications, setNotifications] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +18,7 @@ const NotificationPanel = () => {
       if (!user) return;
 
       // 1. Fetch user settings to get city/area
-      const settingsRes = await fetch("http://localhost:5000/api/settings", {
+      const settingsRes = await fetch(`${API}/api/settings`, {
         headers: { 
           Authorization: `Bearer ${token}`,
           "X-Clerk-User-Id": user.id
@@ -28,7 +30,7 @@ const NotificationPanel = () => {
       const area = settingsData?.area || "";
 
       // 2. Fetch notifications using city/area
-      const res = await fetch(`http://localhost:5000/api/notifications/user?clerkUserId=${user.id}&city=${city}&area=${area}`, {
+      const res = await fetch(`${API}/api/notifications/user?clerkUserId=${user.id}&city=${city}&area=${area}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "X-Clerk-User-Id": user.id
@@ -53,7 +55,7 @@ const NotificationPanel = () => {
   const markAsRead = async (id) => {
     try {
       const token = await getToken();
-      await fetch(`http://localhost:5000/api/notifications/${id}/read`, { 
+      await fetch(`${API}/api/notifications/${id}/read`, { 
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`

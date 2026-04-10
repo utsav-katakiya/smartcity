@@ -3,6 +3,7 @@ import { useClerk, useUser, useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Admin.css";
 import "./Departments.css";
+import { API } from "../../config/api";
 
 const Departments = () => {
   const [deptStats, setDeptStats] = useState([]);
@@ -34,7 +35,7 @@ const Departments = () => {
           headers["X-Clerk-User-Id"] = user.id;
         }
 
-        const res = await fetch("http://localhost:5000/api/admin/departments/stats", { headers });
+        const res = await fetch(`${API}/api/admin/departments/stats`, { headers });
         const data = await res.json();
         if (res.ok) setDeptStats(data);
       } catch (err) {

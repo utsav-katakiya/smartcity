@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import "./complaintDetails.css";
 import DashboardLayout from "../../components/DashboardLayout";
+import { API } from "../../config/api";
 
 const ComplaintDetails = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const ComplaintDetails = () => {
     const fetchComplaint = async () => {
       try {
         const token = await getToken();
-        const res = await fetch(`http://localhost:5000/api/complaints/${id}`, {
+        const res = await fetch(`${API}/api/complaints/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -37,12 +38,12 @@ const ComplaintDetails = () => {
 
   const upvoteComplaint = async () => {
     if (!user || hasUpvoted || isVoting || !complaint) return;
-    
+
     setIsVoting(true);
     try {
       const dbId = complaint._id || id;
       const token = await getToken();
-      const res = await fetch(`http://localhost:5000/api/complaints/upvote/${dbId}`, {
+      const res = await fetch(`${API}/api/complaints/upvote/${dbId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +84,7 @@ const ComplaintDetails = () => {
 
           {complaint.image && (
             <img
-              src={complaint.image?.startsWith("http") ? complaint.image : `http://localhost:5000/uploads/${complaint.image}`}
+              src={complaint.image?.startsWith("http") ? complaint.image : `${API}/uploads/${complaint.image}`}
               alt="complaint"
               className="complaintImage"
             />
@@ -95,7 +96,7 @@ const ComplaintDetails = () => {
             <span className={`status ${complaint.status?.replace(" ", "")}`}>
               {complaint.status}
             </span>
-            <button 
+            <button
               className={`upvoteBtn ${hasUpvoted ? 'voted' : ''}`}
               onClick={upvoteComplaint}
               disabled={hasUpvoted || isVoting}
@@ -118,7 +119,7 @@ const ComplaintDetails = () => {
                 <b>Full Address:</b> {complaint.address || "No address provided"}
               </p>
             </div>
-            
+
             <div className="coords-container" style={{ marginTop: '10px', fontSize: '14px', color: 'var(--text-muted)' }}>
               <p>
                 <b>Coordinates:</b> {complaint.latitude}, {complaint.longitude}

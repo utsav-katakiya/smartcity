@@ -4,6 +4,7 @@ import { useClerk, useAuth, useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Admin.css";
 import "./AdminDashboard.css";
+import { API } from "../../config/api";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -49,9 +50,9 @@ const AdminDashboard = () => {
         }
 
         const [statsRes, workloadRes, emergencyRes] = await Promise.all([
-          fetch("http://localhost:5000/api/admin/stats", { headers }),
-          fetch("http://localhost:5000/api/admin/complaint-stats", { headers }),
-          fetch("http://localhost:5000/api/admin/emergency-complaints", { headers })
+          fetch(`${API}/api/admin/stats`, { headers }),
+          fetch(`${API}/api/admin/complaint-stats`, { headers }),
+          fetch(`${API}/api/admin/emergency-complaints`, { headers })
         ]);
 
         if (statsRes.ok) {

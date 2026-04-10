@@ -3,6 +3,7 @@ import { useClerk, useAuth, useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Admin.css";
 import "./AdminNotifications.css";
+import { API } from "../../config/api";
 
 const AdminNotifications = () => {
   const [formData, setFormData] = useState({ title: "", message: "", city: "", area: "" });
@@ -45,7 +46,7 @@ const AdminNotifications = () => {
         headers["X-Clerk-User-Id"] = user.id;
       }
 
-      const res = await fetch("http://localhost:5000/api/notifications/admin/send-alert", {
+      const res = await fetch(`${API}/api/notifications/admin/send-alert`, {
         method: "POST",
         headers,
         body: JSON.stringify(formData)

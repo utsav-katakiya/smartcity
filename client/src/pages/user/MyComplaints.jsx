@@ -3,6 +3,7 @@ import "./myComplaints.css";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/DashboardLayout";
+import { API } from "../../config/api";
 
 const MyComplaints = () => {
   const { user } = useUser();
@@ -12,7 +13,7 @@ const MyComplaints = () => {
   const [complaints, setComplaints] = useState([]);
   const [filteredComplaints, setFilteredComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [sortBy, setSortBy] = useState("newest");
@@ -23,7 +24,7 @@ const MyComplaints = () => {
     try {
       const token = await getToken();
       const res = await fetch(
-        `http://localhost:5000/api/complaints/user/${user.id}`, // Backend now uses token to identify user
+        `${API}/api/complaints/user/${user.id}`, // Backend now uses token to identify user
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -57,7 +58,7 @@ const MyComplaints = () => {
 
     // Search
     if (searchTerm) {
-      result = result.filter(c => 
+      result = result.filter(c =>
         (c.title?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
         (c.description?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
         (c.category?.toLowerCase() || "").includes(searchTerm.toLowerCase())
@@ -134,7 +135,7 @@ const MyComplaints = () => {
       <div className="myComplaintsPage">
         <div className="pageHeader">
           <div>
-            <h1 className="pageTitle" style={{fontSize: '32px', marginBottom: '10px', background: 'none', webkitTextFillColor: 'unset', color: 'var(--text-primary)'}}>My Complaints</h1>
+            <h1 className="pageTitle" style={{ fontSize: '32px', marginBottom: '10px', background: 'none', webkitTextFillColor: 'unset', color: 'var(--text-primary)' }}>My Complaints</h1>
             <p className="pageSubtitle">Track and manage the issues you've reported</p>
           </div>
           <button className="addBtn" onClick={() => navigate("/add-complaint")}>
@@ -165,9 +166,9 @@ const MyComplaints = () => {
         {/* CONTROLS */}
         <div className="controlsRow">
           <div className="searchWrapper">
-            <input 
-              type="text" 
-              placeholder="Search by title, category, or desc..." 
+            <input
+              type="text"
+              placeholder="Search by title, category, or desc..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="searchInput"
@@ -175,8 +176,8 @@ const MyComplaints = () => {
           </div>
 
           <div className="filtersWrapper">
-            <select 
-              value={statusFilter} 
+            <select
+              value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="filterSelect"
             >
@@ -187,8 +188,8 @@ const MyComplaints = () => {
               <option value="Resolved">Resolved</option>
             </select>
 
-            <select 
-              value={sortBy} 
+            <select
+              value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="filterSelect"
             >

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import "../styles/ComplaintCard.css"
+import { API } from "../config/api";
 const getStatusStep = (status) => {
   if (status === "Pending") return 1;
   if (status === "In Progress") return 2;
@@ -65,14 +66,14 @@ const ComplaintCard = ({ complaint: initialComplaint }) => {
       default: return "📍";
     }
   };
-  
+
   const upvoteComplaint = async (id) => {
     if (!user || hasUpvoted || isVoting) return;
 
     setIsVoting(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/complaints/upvote/${id}`,
+        `${API}/api/complaints/upvote/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -180,7 +181,7 @@ const ComplaintCard = ({ complaint: initialComplaint }) => {
           {isVoting ? "⏳ Upvoting..." : hasUpvoted ? `👍 ${complaint.upvotes} Supported` : `👍 ${complaint.upvotes} Support`}
         </button>
       </div>
-      
+
     </div>
   );
 };

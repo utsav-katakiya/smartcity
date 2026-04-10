@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DepartmentPanel.css";
 import "../../styles/Admin.css"; // Reuse admin styles for cards
+import { API } from "../../config/api";
 
 const DepartmentPanel = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const DepartmentPanel = () => {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:5000/api/complaints/department?department=${encodeURIComponent(departmentName)}&_t=${Date.now()}`, {
+      const res = await fetch(`${API}/api/complaints/department?department=${encodeURIComponent(departmentName)}&_t=${Date.now()}`, {
         headers: { Authorization: `Bearer dummy-override` }
       });
       const data = await res.json();
@@ -41,7 +42,7 @@ const DepartmentPanel = () => {
 
   const handleUpdateStatus = async (id, newStatus) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/complaints/${id}/status`, {
+      const res = await fetch(`${API}/api/admin/complaints/${id}/status`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

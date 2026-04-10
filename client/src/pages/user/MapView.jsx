@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import DashboardLayout from "../../components/DashboardLayout";
+import { API } from "../../config/api";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -28,8 +29,8 @@ const MapView = () => {
       try {
         const token = await getToken();
         if (!token) return;
-        
-        const res = await fetch(`http://localhost:5000/api/complaints/user/${user.id}`, {
+
+        const res = await fetch(`${API}/api/complaints/user/${user.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "X-Clerk-User-Id": user.id

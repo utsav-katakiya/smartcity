@@ -3,6 +3,7 @@ import "./myComplaints.css"; // Reuse existing styles
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/DashboardLayout";
+import { API } from "../../config/api";
 
 const ResolvedHistory = () => {
   const { user } = useUser();
@@ -19,7 +20,7 @@ const ResolvedHistory = () => {
       setLoading(true);
       const token = await getToken();
       const res = await fetch(
-        `http://localhost:5000/api/complaints/user/${user.id}`,
+        `${API}/api/complaints/user/${user.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -52,7 +53,7 @@ const ResolvedHistory = () => {
       const token = await getToken();
       if (!token || !user) return;
 
-      const res = await fetch(`http://localhost:5000/api/complaints/${id}`, {
+      const res = await fetch(`${API}/api/complaints/${id}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -104,7 +105,7 @@ const ResolvedHistory = () => {
       <div className="myComplaintsPage">
         <div className="pageHeader">
           <div>
-            <h1 className="pageTitle" style={{fontSize: '32px', marginBottom: '10px', color: 'var(--text-primary)'}}>Resolved History</h1>
+            <h1 className="pageTitle" style={{ fontSize: '32px', marginBottom: '10px', color: 'var(--text-primary)' }}>Resolved History</h1>
             <p className="pageSubtitle">View your successfully resolved issues and manage records.</p>
           </div>
         </div>
@@ -124,9 +125,9 @@ const ResolvedHistory = () => {
                 <div className="cardMain">
                   <div className="cardTop">
                     {item.image ? (
-                      <img 
-                        src={item.image.startsWith("http") ? item.image : `http://localhost:5000/uploads/${item.image}`} 
-                        alt="preview" 
+                      <img
+                        src={item.image.startsWith("http") ? item.image : `${API}/uploads/${item.image}`}
+                        alt="preview"
                         className="categoryIcon thumb-preview"
                         style={{ objectFit: 'cover' }}
                       />
@@ -151,8 +152,8 @@ const ResolvedHistory = () => {
 
                 <div className="cardActions">
                   <button className="view-btn" onClick={() => navigate(`/complaint/${item._id}`)}>Details</button>
-                  <button 
-                    className="delete-btn" 
+                  <button
+                    className="delete-btn"
                     onClick={() => handleDelete(item._id)}
                     style={{ backgroundColor: '#ef4444', color: 'white' }}
                     disabled={deletingId === item._id}

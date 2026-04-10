@@ -3,6 +3,7 @@ import { useClerk, useAuth, useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Admin.css";
 import "./AdminComplaints.css";
+import { API } from "../../config/api";
 
 const AdminComplaints = () => {
   const [complaints, setComplaints] = useState([]);
@@ -23,7 +24,7 @@ const AdminComplaints = () => {
     try {
       const token = await getToken();
       const { category, status, search, department, filter } = filters;
-      
+
       const headers = {
         "Content-Type": "application/json"
       };
@@ -37,7 +38,7 @@ const AdminComplaints = () => {
       }
 
       // Add timestamp to prevent caching
-      let url = `http://localhost:5000/api/admin/complaints?_t=${Date.now()}&`;
+      let url = `${API}/api/admin/complaints?_t=${Date.now()}&`;
       if (category && category !== "All") url += `category=${category}&`;
       if (status && status !== "All") url += `status=${status}&`;
       if (search) url += `search=${search}&`;
@@ -87,7 +88,7 @@ const AdminComplaints = () => {
     }
 
     console.log("Assign clicked:", id, department);
-    const url = `http://localhost:5000/api/complaints/assign/${id}`;
+    const url = `${API}/api/complaints/assign/${id}`;
     console.log("FETCH_DEBUG: Calling URL:", url);
 
     try {

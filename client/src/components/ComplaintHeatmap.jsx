@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "../styles/ComplaintHeatmap.css";
+import { API } from "../config/api";
 
 // Fix for default marker icons in Leaflet
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
@@ -22,7 +23,7 @@ const ComplaintHeatmap = () => {
   useEffect(() => {
     const fetchLocationStats = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/admin/location-stats");
+        const res = await fetch(`${API}/api/admin/location-stats`);
         const data = await res.json();
         if (res.ok) setLocations(data);
       } catch (err) {

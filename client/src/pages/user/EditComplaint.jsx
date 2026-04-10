@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import "./addComplaint.css";
 import DashboardLayout from "../../components/DashboardLayout";
+import { API } from "../../config/api";
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -31,7 +32,7 @@ const EditComplaint = () => {
   const [preview, setPreview] = useState(null);
   const isEditingRef = useRef(false);
   const [loading, setLoading] = useState(true);
-  
+
   // Custom Dropdown State
   const [showCatDropdown, setShowCatDropdown] = useState(false);
   const [showSubDropdown, setShowSubDropdown] = useState(false);
@@ -180,10 +181,10 @@ const EditComplaint = () => {
       if (!isLoaded || !user) return;
       try {
         const token = await getToken();
-        const res = await fetch(`http://localhost:5000/api/complaints/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+        const res = await fetch(`${API}/api/complaints/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         });
         const data = await res.json();
         if (res.ok) {
@@ -196,7 +197,7 @@ const EditComplaint = () => {
             image: null // We don't pre-fill File object
           });
           if (data.image) {
-            setPreview(data.image.startsWith("http") ? data.image : `http://localhost:5000/uploads/${data.image}`);
+            setPreview(data.image.startsWith("http") ? data.image : `${API}/uploads/${data.image}`);
           }
         }
       } catch (err) {
@@ -235,7 +236,7 @@ const EditComplaint = () => {
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
       );
       const data = await res.json();
-      
+
       if (!isEditingRef.current) {
         setForm((prev) => ({
           ...prev,
@@ -278,9 +279,9 @@ const EditComplaint = () => {
     // Handle map centering on data load
     const mapObj = useMap();
     useEffect(() => {
-        if (form.latitude && form.longitude) {
-            mapObj.setView([form.latitude, form.longitude], mapObj.getZoom());
-        }
+      if (form.latitude && form.longitude) {
+        mapObj.setView([form.latitude, form.longitude], mapObj.getZoom());
+      }
     }, [form.latitude, form.longitude, mapObj]);
 
     return (
@@ -370,10 +371,10 @@ const EditComplaint = () => {
       data.append("description", `Issue reported in category: ${form.category}, Subcategory: ${form.subcategory}`);
 
       const token = await getToken();
-      const res = await fetch(`http://localhost:5000/api/complaints/${id}`, {
+      const res = await fetch(`${API}/api/complaints/${id}`, {
         method: "PUT",
         headers: {
-            Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         },
         body: data,
       });
@@ -404,19 +405,19 @@ const EditComplaint = () => {
             {/* CATEGORY */}
             <h3>Complaint Category</h3>
             <div className="custom-select">
-              <div 
+              <div
                 className={`select-selected ${showCatDropdown ? "active" : ""}`}
                 onClick={() => setShowCatDropdown(!showCatDropdown)}
               >
                 <span>{form.category || "Select Category"}</span>
                 <div className={`chevron ${showCatDropdown ? "up" : ""}`}></div>
               </div>
-              
+
               {showCatDropdown && (
                 <div className="select-items max-h-60 overflow-y-auto rounded-lg shadow-md">
                   {Object.keys(categoryMap).map((cat) => (
-                    <div 
-                      key={cat} 
+                    <div
+                      key={cat}
                       onClick={() => {
                         setForm(prev => ({ ...prev, category: cat, subcategory: "" }));
                         setShowCatDropdown(false);
@@ -432,7 +433,7 @@ const EditComplaint = () => {
             {/* SUBCATEGORY */}
             <h3>Subcategory</h3>
             <div className="custom-select">
-              <div 
+              <div
                 className={`select-selected ${!form.category ? "disabled" : ""} ${showSubDropdown ? "active" : ""}`}
                 onClick={() => form.category && setShowSubDropdown(!showSubDropdown)}
               >
@@ -445,8 +446,8 @@ const EditComplaint = () => {
               {showSubDropdown && form.category && (
                 <div className="select-items max-h-60 overflow-y-auto rounded-lg shadow-md">
                   {categoryMap[form.category].map((sub) => (
-                    <div 
-                      key={sub} 
+                    <div
+                      key={sub}
                       onClick={() => {
                         setForm(prev => ({ ...prev, subcategory: sub }));
                         setShowSubDropdown(false);
@@ -462,9 +463,9 @@ const EditComplaint = () => {
             {/* MAP */}
             <h3>Update Location on Map</h3>
             <div className="mapContainer">
-              <MapContainer 
-                center={[form.latitude, form.longitude]} 
-                zoom={14} 
+              <MapContainer
+                center={[form.latitude, form.longitude]}
+                zoom={14}
                 className="complaintMap"
               >
                 <TileLayer
@@ -497,7 +498,7 @@ const EditComplaint = () => {
             {/* IMAGE */}
             <h3>Complaint Image</h3>
             <div className="uploadContainer">
-              <div 
+              <div
                 className="uploadBox"
                 onDragOver={handleDrag}
                 onDragEnter={handleDrag}
@@ -507,8 +508,8 @@ const EditComplaint = () => {
                 {preview ? (
                   <div className="imagePreviewWrapper">
                     <img src={preview} alt="Preview" className="imagePreview" />
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="removeImgBtn"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -545,7 +546,7 @@ const EditComplaint = () => {
             </button>
 
             {message && (
-              <p className={message.toLowerCase().includes("success") ? "successMsg" : "errorMsg"} style={{marginTop: '15px'}}>
+              <p className={message.toLowerCase().includes("success") ? "successMsg" : "errorMsg"} style={{ marginTop: '15px' }}>
                 {message}
               </p>
             )}

@@ -14,6 +14,7 @@ import {
 } from "recharts";
 
 import DashboardLayout from "../../components/DashboardLayout";
+import { API } from "../../config/api";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const Dashboard = () => {
   const fetchAnalytics = async () => {
     try {
       const token = await getToken();
-      const res = await fetch(`http://localhost:5000/api/dashboard/analytics?clerkUserId=${user.id}`, {
+      const res = await fetch(`${API}/api/dashboard/analytics?clerkUserId=${user.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "X-Clerk-User-Id": user.id

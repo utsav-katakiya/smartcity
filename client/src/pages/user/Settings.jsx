@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import "./Settings.css";
 import DashboardLayout from "../../components/DashboardLayout";
+import { API } from "../../config/api";
 
 const Settings = () => {
   const { user } = useUser();
@@ -36,7 +37,7 @@ const Settings = () => {
       const token = await getToken();
       if (!token) return;
 
-      const res = await fetch("http://localhost:5000/api/settings", {
+      const res = await fetch(`${API}/api/settings`, {
         headers: { 
           "Authorization": `Bearer ${token}`,
           "X-Clerk-User-Id": user.id 
@@ -105,7 +106,7 @@ const Settings = () => {
 
     try {
       const token = await getToken();
-      const res = await fetch("http://localhost:5000/api/settings", {
+      const res = await fetch(`${API}/api/settings`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

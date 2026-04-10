@@ -5,6 +5,7 @@ import DashboardLayout from "../../components/DashboardLayout";
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { API } from "../../config/api";
 
 // Fix Leaflet marker icon issue
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -350,81 +351,81 @@ const AddComplaint = () => {
   // ================= SUBMIT =================
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!form.category || !form.subcategory) {
-    setMessage("Please fill all required fields");
-    return;
-  }
+    if (!form.category || !form.subcategory) {
+      setMessage("Please fill all required fields");
+      return;
+    }
 
-  if (!form.image) {
-    setMessage("Please upload image");
-    return;
-  }
+    if (!form.image) {
+      setMessage("Please upload image");
+      return;
+    }
 
-  try {
-    const data = new FormData();
+    try {
+      const data = new FormData();
 
-    // REQUIRED FIELDS
-    data.append("category", form.category);
-    data.append("subcategory", form.subcategory);
-    data.append("address", form.address);
-    data.append("latitude", form.latitude);
-    data.append("longitude", form.longitude);
+      // REQUIRED FIELDS
+      data.append("category", form.category);
+      data.append("subcategory", form.subcategory);
+      data.append("address", form.address);
+      data.append("latitude", form.latitude);
+      data.append("longitude", form.longitude);
 
-    // IMAGE
-    data.append("image", form.image);
+      // IMAGE
+      data.append("image", form.image);
 
-    // USER DATA
-    data.append("name", user?.fullName || "Anonymous");
-    data.append("email", user?.primaryEmailAddress?.emailAddress || "");
-    data.append("clerkUserId", user?.id || "");
+      // USER DATA
+      data.append("name", user?.fullName || "Anonymous");
+      data.append("email", user?.primaryEmailAddress?.emailAddress || "");
+      data.append("clerkUserId", user?.id || "");
 
-    // DESCRIPTION
-    data.append(
-      "description",
-      `Issue reported in category: ${form.category}, Subcategory: ${form.subcategory}`
-    );
+      // DESCRIPTION
+      data.append(
+        "description",
+        `Issue reported in category: ${form.category}, Subcategory: ${form.subcategory}`
+      );
 
-    const token = await getToken();
+      const token = await getToken();
 
-    const res = await fetch("http://localhost:5000/api/complaints", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "X-Clerk-User-Id": user.id
-      },
-      body: data, // FormData send
-    });
-
-
-    if (res.ok) {
-      setMessage("Complaint submitted successfully 🚀");
-
-      setForm({
-        category: "",
-        subcategory: "",
-        address: "",
-        image: null,
-        latitude: 23.0225,
-        longitude: 72.5714,
+      const res = await fetch(`${API}/api/complaints`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Clerk-User-Id": user.id
+        },
+        body: data, // FormData send
       });
 
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    } else {
-      let result;
-      try {
-        result = await res.json();
-      } catch (e) {
-        result = { message: "Server encountered a fatal error (check console)" };
+
+      if (res.ok) {
+        setMessage("Complaint submitted successfully 🚀");
+
+        setForm({
+          category: "",
+          subcategory: "",
+          address: "",
+          image: null,
+          latitude: 23.0225,
+          longitude: 72.5714,
+        });
+
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      } else {
+        let result;
+        try {
+          result = await res.json();
+        } catch (e) {
+          result = { message: "Server encountered a fatal error (check console)" };
+        }
+        setMessage(result.message || result.error || "Submission failed");
       }
-      setMessage(result.message || result.error || "Submission failed");
+    } catch (err) {
+      console.error(err);
+      setMessage("Server error");
     }
-  } catch (err) {
-    console.error(err);
-    setMessage("Server error");
-  }
-};
+  };
   // ================= UI =================
 
   return (
