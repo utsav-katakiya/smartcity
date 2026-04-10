@@ -1,4 +1,5 @@
 const Complaint = require("../models/Complaint");
+const Notification = require("../models/Notification");
 
 
 // @desc    Get all complaints with filters for admin
@@ -24,6 +25,18 @@ exports.getAllComplaintsAdmin = async (req, res) => {
 
     const complaints = await Complaint.find(query).sort({ createdAt: -1 });
     res.json(complaints);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// @desc    Get single complaint by ID for admin
+// @route   GET /api/admin/complaints/:id
+exports.getComplaintById = async (req, res) => {
+  try {
+    const complaint = await Complaint.findById(req.params.id);
+    if (!complaint) return res.status(404).json({ message: "Complaint not found" });
+    res.json(complaint);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -87,6 +100,17 @@ exports.updateStatus = async (req, res) => {
       { new: true }
     );
     if (!complaint) return res.status(404).json({ message: "Complaint not found" });
+
+    // CREATE NOTIFICATION FOR USER
+    if (complaint.clerkUserId) {
+      await Notification.create({
+        userId: complaint.clerkUserId,
+        title: "Complaint Status Update",
+        message: `Your complaint #${complaint._id.toString().slice(-6)} status is now "${status}".`,
+        type: "StatusUpdate"
+      });
+    }
+
     res.json(complaint);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -124,6 +148,17 @@ exports.assignDepartment = async (req, res) => {
       { new: true }
     );
     if (!complaint) return res.status(404).json({ message: "Complaint not found" });
+
+    // CREATE NOTIFICATION FOR USER
+    if (complaint.clerkUserId && assignedDepartment && assignedDepartment !== "None") {
+      await Notification.create({
+        userId: complaint.clerkUserId,
+        title: "Complaint Assigned",
+        message: `Your complaint #${complaint._id.toString().slice(-6)} has been assigned to the ${assignedDepartment}.`,
+        type: "StatusUpdate"
+      });
+    }
+
     res.json(complaint);
   } catch (error) {
     res.status(500).json({ error: error.message });

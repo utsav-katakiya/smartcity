@@ -2,7 +2,7 @@ const UserSettings = require("../models/UserSettings");
 
 exports.getSettings = async (req, res) => {
   try {
-    const userId = "test_user_123";
+    const userId = req.auth.userId;
 
     let settings = await UserSettings.findOne({ userId });
     
@@ -20,7 +20,7 @@ exports.getSettings = async (req, res) => {
 
 exports.createSettings = async (req, res) => {
   try {
-    const userId = "test_user_123";
+    const userId = req.auth.userId;
 
     const existingSettings = await UserSettings.findOne({ userId });
     if (existingSettings) {
@@ -38,7 +38,7 @@ exports.createSettings = async (req, res) => {
 
 exports.updateSettings = async (req, res) => {
   try {
-    const userId = "test_user_123";
+    const userId = req.auth.userId;
 
     const {
       emailNotifications,
@@ -48,6 +48,8 @@ exports.updateSettings = async (req, res) => {
       defaultCategoryFilter,
       defaultStatusFilter,
       refreshInterval,
+      city,
+      area,
       shareAnonymousUsageData
     } = req.body;
 
@@ -62,6 +64,8 @@ exports.updateSettings = async (req, res) => {
           ...(defaultCategoryFilter !== undefined && { defaultCategoryFilter }),
           ...(defaultStatusFilter !== undefined && { defaultStatusFilter }),
           ...(refreshInterval !== undefined && { refreshInterval }),
+          ...(city !== undefined && { city }),
+          ...(area !== undefined && { area }),
           ...(shareAnonymousUsageData !== undefined && { shareAnonymousUsageData })
         }
       },

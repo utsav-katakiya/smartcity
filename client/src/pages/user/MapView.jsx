@@ -2,18 +2,37 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import DashboardLayout from "../../components/DashboardLayout";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
+// Fix for default marker icons
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
 const MapView = () => {
   const [complaints, setComplaints] = useState([]);
+  const { user } = useUser();
   const { getToken } = useAuth();
 
   useEffect(() => {
     const fetchComplaints = async () => {
+      if (!user || user.id === undefined) return;
       try {
         const token = await getToken();
-        const res = await fetch("http://localhost:5000/api/complaints", {
+        if (!token) return;
+        
+        const res = await fetch(`http://localhost:5000/api/complaints/user/${user.id}`, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            "X-Clerk-User-Id": user.id
           }
         });
         const data = await res.json();
@@ -25,7 +44,7 @@ const MapView = () => {
       }
     };
     fetchComplaints();
-  }, [getToken]);
+  }, [user?.id, getToken]);
 
   return (
     <DashboardLayout>

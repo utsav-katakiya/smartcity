@@ -1,25 +1,27 @@
 // const User = require("../models/User");
 // const { getAuth } = require("@clerk/express");
 
-/**
- * 🔓 AUTH REMOVED - EVERYONE IS PROTECT
- * This is a dummy middleware that bypasses Clerk
- */
+
 const protect = (req, res, next) => {
-  // Set a dummy user identity so controllers don't crash
-  req.auth = { userId: "test_user_123" };
-  req.user = { role: "admin", clerkUserId: "test_user_123" }; // Give full access
+  const userId = req.headers["x-clerk-user-id"] || req.query.clerkUserId || req.body.clerkUserId;
+  
+  if (!userId) {
+    return res.status(401).json({ message: "Authentication required. Please provide a clerkUserId." });
+  }
+
+  req.auth = { userId };
+  req.user = { clerkUserId: userId, role: "user" }; // Default role, specific controllers check roles
   next();
 };
 
-/**
- * 🔓 ROLE CHECK REMOVED
- * Everyone has every role now
- */
 const checkRole = (roles) => {
   return (req, res, next) => {
-    req.auth = { userId: "test_user_123" };
-    req.user = { role: "admin", clerkUserId: "test_user_123" }; 
+    const userId = req.headers["x-clerk-user-id"] || req.query.clerkUserId || req.body.clerkUserId;
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized. Missing User Identity." });
+    }
+    req.auth = { userId };
+    req.user = { clerkUserId: userId, role: "admin" }; // Temporary until full role sync
     next();
   };
 };

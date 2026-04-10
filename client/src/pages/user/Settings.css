@@ -280,3 +280,79 @@
     border-bottom-color: #ff6b00;
   }
 }
+
+/* LOCATION EDITING */
+.section-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.edit-loc-btn {
+  background: rgba(255, 107, 0, 0.1);
+  color: #ff6b00;
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.edit-loc-btn:hover {
+  background: #ff6b00;
+  color: white;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.save-loc-btn {
+  background: #ff6b00;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 107, 0, 0.25);
+}
+
+.cancel-loc-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--glass-border);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.location-display {
+  margin: 15px 0;
+}
+
+.loc-pills {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.loc-pill {
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.no-loc {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 14px;
+}

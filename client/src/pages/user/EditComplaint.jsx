@@ -196,7 +196,7 @@ const EditComplaint = () => {
             image: null // We don't pre-fill File object
           });
           if (data.image) {
-            setPreview(`http://localhost:5000/uploads/${data.image}`);
+            setPreview(data.image.startsWith("http") ? data.image : `http://localhost:5000/uploads/${data.image}`);
           }
         }
       } catch (err) {

@@ -2,12 +2,11 @@ const Complaint = require("../models/Complaint");
 
 exports.getDashboardAnalytics = async (req, res) => {
   try {
-    const userId = "test_user_123";
-    const role = "admin";
-    const isAdminOrDept = true;
+    const userId = req.auth.userId;
+    const role = "user"; 
 
-    // AUTH REMOVED
-    let query = {};
+    // AUTH REQUIRED - Filtering by authenticated user's ID
+    let query = { clerkUserId: userId };
 
     const [
       totalComplaints,

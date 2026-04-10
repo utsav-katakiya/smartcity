@@ -14,6 +14,7 @@ const Sidebar = () => {
     { name: "Dashboard", path: "/dashboard", icon: "📊" },
     { name: "Add Complaint", path: "/add-complaint", icon: "➕" },
     { name: "My Complaints", path: "/my-complaints", icon: "📁" },
+    { name: "Resolved History", path: "/resolved-history", icon: "✅" },
     { name: "City Map", path: "/map", icon: "🗺️" },
     { name: "Settings", path: "/settings", icon: "⚙️" },
   ];
@@ -22,7 +23,14 @@ const Sidebar = () => {
     <>
       {/* MOBILE HEADER */}
       <div className="mobileHeader">
-        <h2 className="logoSmall">Smart City Issue Tracker</h2>
+        <div className="headerLeftGroup">
+          {location.pathname !== "/dashboard" && location.pathname !== "/" && (
+            <button className="backBtn" onClick={() => navigate(-1)}>
+              ←
+            </button>
+          )}
+          <h2 className="logoSmall">Smart City Issue Tracker</h2>
+        </div>
         <button className="hamburger" onClick={toggleSidebar}>
           ☰
         </button>
@@ -38,8 +46,8 @@ const Sidebar = () => {
 
           <ul className="menu">
             {menuItems.map((item) => (
-              <li 
-                key={item.path} 
+              <li
+                key={item.path}
                 className={location.pathname === item.path ? "active" : ""}
                 onClick={() => {
                   navigate(item.path);

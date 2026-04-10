@@ -5,8 +5,8 @@ const { getSettings, createSettings, updateSettings } = require("../controllers/
 const { protect } = require("../middleware/auth");
 
 // PROTECTED SETTINGS: Login required
-router.get("/", getSettings);
-router.post("/", createSettings);
-router.put("/", updateSettings);
+router.get("/", protect, getSettings);
+router.post("/", protect, createSettings);
+router.put("/", protect, updateSettings);
 
 module.exports = router;

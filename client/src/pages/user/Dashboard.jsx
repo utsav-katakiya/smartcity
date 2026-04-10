@@ -30,9 +30,10 @@ const Dashboard = () => {
   const fetchAnalytics = async () => {
     try {
       const token = await getToken();
-      const res = await fetch("http://localhost:5000/api/dashboard/analytics", {
+      const res = await fetch(`http://localhost:5000/api/dashboard/analytics?clerkUserId=${user.id}`, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          "X-Clerk-User-Id": user.id
         }
       });
       const data = await res.json();
@@ -72,14 +73,14 @@ const Dashboard = () => {
 
   const chartData = [
     { name: "Submitted", value: pending },
-    { name: "In Progress", value: progress },
+    { name: "Working", value: progress },
     { name: "Resolved", value: resolved },
   ];
 
   const statsCards = [
     { title: "Total Complaints", value: total, icon: "📋", color: "blue", label: "All reported issues" },
     { title: "Pending", value: pending, icon: "⏳", color: "amber", label: "Awaiting review" },
-    { title: "In Progress", value: progress, icon: "🚀", color: "blue-intense", label: "Being resolved" },
+    { title: "Working", value: progress, icon: "🛠️", color: "blue-intense", label: "Issue being fixed" },
     { title: "Resolved", value: resolved, icon: "✅", color: "green", label: "Successfully fixed" },
   ];
 
@@ -177,67 +178,6 @@ const Dashboard = () => {
           </section>
         </div>
 
-        {/* LOWER GRID */}
-        <div className="dashboard-lower-grid">
-          {/* RECENT ACTIVITIES */}
-          <section className="recent-complaints-card">
-            <div className="section-header">
-              <h3>🕒 Recent Complaints</h3>
-              <button className="view-all-link" onClick={() => navigate("/my-complaints")}>View All</button>
-            </div>
-            <div className="recent-list">
-              {recentComplaints.length > 0 ? (
-                recentComplaints.map((c) => (
-                  <div key={c._id} className="recent-complaint-item" onClick={() => navigate(`/complaint/${c._id}`)}>
-                    <div className="item-icon-box">{getCategoryIcon(c.category)}</div>
-                    <div className="item-content">
-                      <div className="item-title-row">
-                        <b>{c.title}</b>
-                        <span className={`status-pill ${c.status?.replace(" ", "")}`}>{c.status}</span>
-                      </div>
-                      <div className="item-meta">
-                        <span>{c.city || "Civic Area"}</span>
-                        <span className="dot">•</span>
-                        <span>{new Date(c.createdAt).toLocaleDateString()}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="empty-recent"> No recent activities found. </div>
-              )}
-            </div>
-          </section>
-
-          {/* HOT ISSUES */}
-          <section className="recent-complaints-card">
-            <div className="section-header">
-              <h3>🔥 Most Supported</h3>
-            </div>
-            <div className="recent-list">
-              {mostUpvoted.length > 0 ? (
-                mostUpvoted.map((c) => (
-                  <div key={c._id} className="recent-complaint-item" onClick={() => navigate(`/complaint/${c._id}`)}>
-                    <div className="item-icon-box">{getCategoryIcon(c.category)}</div>
-                    <div className="item-content">
-                      <div className="item-title-row">
-                        <b>{c.title}</b>
-                        <span className="support-count">👍 {c.upvotes}</span>
-                      </div>
-                      <div className="item-meta">
-                        <span>{c.category}</span>
-                        <span className="dot">•</span>
-                        <span>{c.city || "Civics"}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="empty-recent"> No support requests yet. </div>
-              )}
-            </div>
-          </section>
-        </div>
       </div>
     </DashboardLayout>
   );

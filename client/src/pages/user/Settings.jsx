@@ -19,12 +19,18 @@ const Settings = () => {
     defaultCategoryFilter: "All",
     defaultStatusFilter: "All",
     refreshInterval: 15,
+    city: "",
+    area: "",
     shareAnonymousUsageData: false
   });
   
   const [toast, setToast] = useState({ message: "", type: "" });
+  const [isEditingLoc, setIsEditingLoc] = useState(false);
+  const [tempLoc, setTempLoc] = useState({ city: settings.city, area: settings.area });
 
   const fetchSettings = useCallback(async () => {
+    if (!user || user.id === undefined) return;
+    
     try {
       setLoading(true);
       const token = await getToken();
@@ -32,7 +38,8 @@ const Settings = () => {
 
       const res = await fetch("http://localhost:5000/api/settings", {
         headers: { 
-          "Authorization": `Bearer ${token}` 
+          "Authorization": `Bearer ${token}`,
+          "X-Clerk-User-Id": user.id 
         }
       });
       const data = await res.json();
@@ -45,7 +52,13 @@ const Settings = () => {
           defaultCategoryFilter: data.defaultCategoryFilter ?? "All",
           defaultStatusFilter: data.defaultStatusFilter ?? "All",
           refreshInterval: data.refreshInterval ?? 15,
+          city: data.city ?? "",
+          area: data.area ?? "",
           shareAnonymousUsageData: data.shareAnonymousUsageData ?? false
+        });
+        setTempLoc({
+          city: data.city ?? "",
+          area: data.area ?? ""
         });
       }
     } catch (err) {
@@ -54,7 +67,7 @@ const Settings = () => {
     } finally {
       setLoading(false);
     }
-  }, [getToken]);
+  }, [getToken, user?.id]);
 
   useEffect(() => {
     fetchSettings();
@@ -96,7 +109,8 @@ const Settings = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          "Authorization": `Bearer ${token}`,
+          "X-Clerk-User-Id": user.id
         },
         body: JSON.stringify(updatedSubset)
       });
@@ -190,6 +204,72 @@ const Settings = () => {
                   )}
                   <div className="info-box">
                     <p>You can edit your personal information directly through your connected Clerk profile widget or dashboard.</p>
+                  </div>
+
+                  <hr style={{ margin: '30px 0', borderColor: 'var(--glass-border)' }} />
+
+                  <div className="settings-section">
+                    <div className="section-title-row">
+                      <h4>Current Location</h4>
+                      {!isEditingLoc ? (
+                        <button className="edit-loc-btn" onClick={() => setIsEditingLoc(true)}>Change Address</button>
+                      ) : (
+                        <div className="edit-actions">
+                          <button className="cancel-loc-btn" onClick={() => {
+                            setIsEditingLoc(false);
+                            setTempLoc({ city: settings.city, area: settings.area });
+                          }}>Cancel</button>
+                          <button 
+                            className="save-loc-btn" 
+                            onClick={() => {
+                              handleSave({ city: tempLoc.city, area: tempLoc.area });
+                              setIsEditingLoc(false);
+                            }}
+                            disabled={saving}
+                          >
+                            Save Location
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    <p className="settings-desc">Set your city and area to receive relevant local alerts and maintenance notices.</p>
+                    
+                    {!isEditingLoc ? (
+                       <div className="location-display">
+                          {settings.city || settings.area ? (
+                            <div className="loc-pills">
+                              {settings.city && <span className="loc-pill"><b>City:</b> {settings.city}</span>}
+                              {settings.area && <span className="loc-pill"><b>Area:</b> {settings.area}</span>}
+                            </div>
+                          ) : (
+                            <p className="no-loc">No location set. Update now to stay informed.</p>
+                          )}
+                       </div>
+                    ) : (
+                      <>
+                        <div className="form-group">
+                          <label htmlFor="city-input">City</label>
+                          <input 
+                            id="city-input" 
+                            type="text" 
+                            placeholder="e.g. Ahmedabad" 
+                            value={tempLoc.city} 
+                            onChange={(e) => setTempLoc(prev => ({ ...prev, city: e.target.value }))} 
+                          />
+                        </div>
+                        
+                        <div className="form-group">
+                          <label htmlFor="area-input">Specific Area / Ward</label>
+                          <input 
+                            id="area-input" 
+                            type="text" 
+                            placeholder="e.g. Satellite" 
+                            value={tempLoc.area} 
+                            onChange={(e) => setTempLoc(prev => ({ ...prev, area: e.target.value }))} 
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               )}

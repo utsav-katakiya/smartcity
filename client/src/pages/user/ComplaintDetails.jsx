@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import "./complaintDetails.css";
 import DashboardLayout from "../../components/DashboardLayout";
 
 const ComplaintDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { user } = useUser();
   const { getToken } = useAuth();
 
@@ -73,11 +74,16 @@ const ComplaintDetails = () => {
     <DashboardLayout>
       <div className="detailsPage">
         <div className="detailsCard">
+          <div className="details-header-top">
+            <button className="back-btn-details" onClick={() => navigate(-1)}>
+              ← Go Back
+            </button>
+          </div>
           {/* IMAGE */}
 
           {complaint.image && (
             <img
-              src={`http://localhost:5000/uploads/${complaint.image}`}
+              src={complaint.image?.startsWith("http") ? complaint.image : `http://localhost:5000/uploads/${complaint.image}`}
               alt="complaint"
               className="complaintImage"
             />
@@ -107,24 +113,17 @@ const ComplaintDetails = () => {
           <div className="locationBox">
             <h3>Location Details</h3>
 
-            <p>
-              <b>State:</b> {complaint.state || "Not provided"}
-            </p>
-            <p>
-              <b>City:</b> {complaint.city || "Not provided"}
-            </p>
-            <p>
-              <b>Pincode:</b> {complaint.pincode || "Not provided"}
-            </p>
-            <p>
-              <b>Street:</b> {complaint.street || "Not provided"}
-            </p>
-            <p>
-              <b>Area:</b> {complaint.area || "Not provided"}
-            </p>
-            <p>
-              <b>Landmark:</b> {complaint.landmark || "Not provided"}
-            </p>
+            <div className="address-container">
+              <p>
+                <b>Full Address:</b> {complaint.address || "No address provided"}
+              </p>
+            </div>
+            
+            <div className="coords-container" style={{ marginTop: '10px', fontSize: '14px', color: 'var(--text-muted)' }}>
+              <p>
+                <b>Coordinates:</b> {complaint.latitude}, {complaint.longitude}
+              </p>
+            </div>
           </div>
 
           <p className="date">

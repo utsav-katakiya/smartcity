@@ -25,9 +25,9 @@ exports.sendAreaAlert = async (req, res) => {
 // @route   GET /api/user/notifications
 exports.getUserNotifications = async (req, res) => {
   try {
-    const userId = "test_user_123";
+    const userId = req.auth.userId;
     const { city, area } = req.query;
-    console.log("[AUTH_DEBUG] getUserNotifications - Accessing by Dummy ID:", userId);
+    console.log("[AUTH_DEBUG] getUserNotifications - Fetching for User:", userId);
 
     // Get notifications directly for user OR general alerts for their area
     const notifications = await Notification.find({
@@ -38,7 +38,9 @@ exports.getUserNotifications = async (req, res) => {
           $or: [
             { city: city, area: area },
             { city: city, area: { $exists: false } },
-            { city: { $exists: false }, area: { $exists: false } }
+            { city: { $exists: false }, area: { $exists: false } },
+            // If no city/area is provided, show ALL AreaAlerts
+            ...(!city ? [{ city: { $exists: true } }] : [])
           ]
         }
       ]
@@ -56,14 +58,17 @@ exports.getUserNotifications = async (req, res) => {
 // @route   PUT /api/user/notifications/:id/read
 exports.markAsRead = async (req, res) => {
   try {
-    const userId = "test_user_123";
+    const userId = req.auth.userId;
     const notification = await Notification.findById(req.params.id);
 
     if (!notification) {
       return res.status(404).json({ message: "Notification not found" });
     }
 
-    // Ownership check Removed
+    // Ownership check
+    if (notification.userId && notification.userId !== userId) {
+      return res.status(403).json({ message: "Not authorized to read this notification" });
+    }
 
     notification.read = true;
     await notification.save();

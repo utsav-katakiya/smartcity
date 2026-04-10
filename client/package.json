@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:user": "vite --mode user --port 3000",
+    "dev:admin": "vite --mode admin --port 3001",
+    "dev:department": "vite --mode department --port 3002",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

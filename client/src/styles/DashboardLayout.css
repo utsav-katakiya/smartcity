@@ -20,7 +20,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  z-index: 100;
+  z-index: 9999 !important;
   transition: transform 0.3s ease;
 }
 
@@ -45,11 +45,38 @@
   padding: 0 20px;
   align-items: center;
   justify-content: space-between;
-  z-index: 90;
+  z-index: 9998 !important;
+}
+
+.headerLeftGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.backBtn {
+  background: var(--glass-hover);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.backBtn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
 }
 
 .logoSmall {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
   background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
   -webkit-background-clip: text;
@@ -156,41 +183,41 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
-  z-index: 95;
+  z-index: 9997 !important;
 }
 
 /* RESPONSIVE */
 @media (max-width: 1024px) {
-  .sidebar {
-    width: 240px;
-  }
-  .dashboardContent {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-  }
+  .sidebar { width: 240px; }
+  .dashboardContent { margin-left: 240px; width: calc(100% - 240px); }
+}
+
+@media (max-width: 900px) {
+  .sidebar { width: 220px; padding: 25px 15px; }
+  .dashboardContent { margin-left: 220px; width: calc(100% - 220px); }
+  .menu li { padding: 12px 15px; font-size: 15px; }
+  .logo { font-size: 22px; }
 }
 
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
     width: 280px;
+    padding: 30px 20px;
   }
   
-  .sidebar.open {
-    transform: translateX(0);
-  }
+  .sidebar.open { transform: translateX(0); }
   
-  .dashboardContent {
-    margin-left: 0;
-    width: 100%;
-    padding-top: 60px;
-  }
+  .dashboardContent { margin-left: 0; width: 100%; padding-top: 60px; }
   
-  .mobileHeader {
-    display: flex;
-  }
+  .mobileHeader { display: flex; }
+ 
+  .logoSmall { font-size: 18px; }
 
-  .closeBtn {
-    display: block;
-  }
+  .closeBtn { display: block; }
+}
+
+@media (max-width: 480px) {
+  .sidebar { width: 100%; } /* Full width on tiny screens */
+  .mobileHeader { padding: 0 15px; }
 }

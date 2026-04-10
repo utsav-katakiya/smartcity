@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import "../styles/Admin.css"; // Reuse some styles for clean look
 import "../styles/NotificationPanel.css";
 
@@ -8,13 +8,30 @@ const NotificationPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const { getToken } = useAuth();
+  const { user } = useUser();
 
   const fetchNotifications = async () => {
     try {
       const token = await getToken();
-      const res = await fetch(`http://localhost:5000/api/notifications/user`, {
+      if (!user) return;
+
+      // 1. Fetch user settings to get city/area
+      const settingsRes = await fetch("http://localhost:5000/api/settings", {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          "X-Clerk-User-Id": user.id
+        }
+      });
+      const settingsData = await settingsRes.json();
+      
+      const city = settingsData?.city || "";
+      const area = settingsData?.area || "";
+
+      // 2. Fetch notifications using city/area
+      const res = await fetch(`http://localhost:5000/api/notifications/user?clerkUserId=${user.id}&city=${city}&area=${area}`, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          "X-Clerk-User-Id": user.id
         }
       });
       const data = await res.json();
@@ -31,7 +48,7 @@ const NotificationPanel = () => {
     fetchNotifications();
     const interval = setInterval(fetchNotifications, 30000); // Poll every 30s
     return () => clearInterval(interval);
-  }, []);
+  }, [user]);
 
   const markAsRead = async (id) => {
     try {

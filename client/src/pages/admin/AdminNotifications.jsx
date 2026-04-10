@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useClerk, useAuth } from "@clerk/clerk-react";
+import { useClerk, useAuth, useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Admin.css";
 import "./AdminNotifications.css";
@@ -9,6 +9,7 @@ const AdminNotifications = () => {
   const [status, setStatus] = useState({ message: "", type: "" });
   const [loading, setLoading] = useState(false);
   const { signOut } = useClerk();
+  const { user } = useUser();
   const { getToken } = useAuth();
   const navigate = useNavigate();
 
@@ -31,12 +32,22 @@ const AdminNotifications = () => {
     setLoading(true);
     try {
       const token = await getToken();
+      
+      const headers = { 
+        "Content-Type": "application/json"
+      };
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      if (user?.id) {
+        headers["X-Clerk-User-Id"] = user.id;
+      }
+
       const res = await fetch("http://localhost:5000/api/notifications/admin/send-alert", {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
+        headers,
         body: JSON.stringify(formData)
       });
 

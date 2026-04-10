@@ -10,13 +10,12 @@ import L from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-let DefaultIcon = L.icon({
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon,
   iconUrl: markerIcon,
   shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
 });
-L.Marker.prototype.options.icon = DefaultIcon;
 
 const AddComplaint = () => {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -245,6 +244,16 @@ const AddComplaint = () => {
   };
 
   // Map Component Logic
+  const MapResizer = () => {
+    const map = useMap();
+    useEffect(() => {
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+    }, [map]);
+    return null;
+  };
+
   const LocationMarker = () => {
     const map = useMapEvents({
       click(e) {
@@ -369,6 +378,7 @@ const AddComplaint = () => {
     // USER DATA
     data.append("name", user?.fullName || "Anonymous");
     data.append("email", user?.primaryEmailAddress?.emailAddress || "");
+    data.append("clerkUserId", user?.id || "");
 
     // DESCRIPTION
     data.append(
@@ -381,9 +391,10 @@ const AddComplaint = () => {
     const res = await fetch("http://localhost:5000/api/complaints", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`, // ❗ ONLY THIS
+        Authorization: `Bearer ${token}`,
+        "X-Clerk-User-Id": user.id
       },
-      body: data, // ❗ FormData भेजना है
+      body: data, // FormData send
     });
 
 
@@ -495,6 +506,7 @@ const AddComplaint = () => {
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
+                <MapResizer />
                 <LocationMarker />
               </MapContainer>
             </div>

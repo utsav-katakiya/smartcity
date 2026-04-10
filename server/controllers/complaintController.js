@@ -1,4 +1,5 @@
 const Complaint = require("../models/Complaint");
+const Notification = require("../models/Notification");
 // const { getAuth } = require("@clerk/express");
 // axios is not used, removing
 
@@ -9,7 +10,7 @@ exports.createComplaint = async (req, res) => {
      console.log("BODY:", req.body);   // 🔥 ADD HERE
     console.log("FILE:", req.file);
     // ===== AUTH REMOVED (Dummy User) =====
-    const userId = "test_user_123";
+    const userId = req.auth.userId;
 
     console.log("[AUTH_DEBUG] User:", userId);
 
@@ -35,7 +36,7 @@ exports.createComplaint = async (req, res) => {
     }
 
     // ===== SAFE FILE HANDLING =====
-    const image = req.file?.filename || null;
+    const image = req.file?.path || null;
 
     // ===== PRIORITY LOGIC =====
     let priority = "LOW";
@@ -96,9 +97,8 @@ exports.createComplaint = async (req, res) => {
 
 exports.getAllComplaints = async (req, res) => {
   try {
-    // AUTH REMOVED - Admin hardcoded
-    const userId = "test_user_123";
-    const role = "admin"; 
+    const userId = req.auth.userId;
+    const role = "admin"; // This should be determined by a role check in middleware
 
     let query = {};
     const isAdminOrDept = true; 
@@ -130,13 +130,8 @@ exports.getAllComplaints = async (req, res) => {
 
 exports.getUserComplaints = async (req, res) => {
   try {
-    const userId = "test_user_123"; 
-    // const auth = getAuth(req);
-    // const userId = auth?.userId;
-    // if (!userId) return res.status(401).json({ message: "Authentication required" });
-
-    // AUTH REMOVED - Admin dummy
-    const targetUserId = "test_user_123";
+    const userId = req.auth.userId;
+    const targetUserId = req.params.clerkUserId || userId;
 
     let query = { clerkUserId: targetUserId };
     console.log(`[AUTH_DEBUG] getUserComplaints by ${userId}. Filter:`, JSON.stringify(query));
@@ -188,7 +183,7 @@ exports.updateComplaint = async (req, res) => {
     complaint.longitude = req.body.longitude || complaint.longitude;
 
     if (req.file) {
-      complaint.image = req.file.filename;
+      complaint.image = req.file.path; // Cloudinary URL
     }
 
     const updatedComplaint = await complaint.save();
@@ -209,7 +204,7 @@ exports.updateComplaint = async (req, res) => {
 };
 exports.upvoteComplaint = async (req, res) => {
   try {
-    const userId = "test_user_123";
+    const userId = req.auth.userId;
     
     console.log("[AUTH_DEBUG] upvoteComplaint - User attempting vote:", userId);
 
@@ -291,11 +286,47 @@ exports.assignComplaintManual = async (req, res) => {
     );
     
     if (!complaint) return res.status(404).json({ message: "Complaint not found" });
+
+    // CREATE NOTIFICATION FOR USER
+    if (complaint.clerkUserId) {
+       await Notification.create({
+         userId: complaint.clerkUserId,
+         title: "Complaint Assigned",
+         message: `Your complaint #${complaint._id.toString().slice(-6)} has been assigned to the ${department}.`,
+         type: "StatusUpdate"
+       });
+    }
     
     console.log("ASSIGN_DEBUG: Assignment saved successfully in 'department' field for:", department);
     res.json({ message: "Assigned successfully", complaint });
   } catch (error) {
     console.error("ASSIGN_ERROR:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// @desc    Delete a complaint
+// @route   DELETE /api/complaints/:id
+exports.deleteComplaint = async (req, res) => {
+  try {
+    const userId = req.auth.userId;
+    console.log(`[DELETE_DEBUG] User ${userId} attempting to delete ${req.params.id}`);
+    const complaint = await Complaint.findById(req.params.id);
+
+    if (!complaint) {
+      return res.status(404).json({ message: "Complaint not found" });
+    }
+
+    // Authorization check: Only creator can delete
+    console.log(`[DELETE_DEBUG] Owner: ${complaint.clerkUserId}, Requester: ${userId}`);
+    if (complaint.clerkUserId !== userId) {
+      console.warn(`[DELETE_DEBUG] Forbidden: ${complaint.clerkUserId} !== ${userId}`);
+      return res.status(403).json({ message: "Not authorized to delete this complaint" });
+    }
+
+    await Complaint.findByIdAndDelete(req.params.id);
+    res.json({ message: "Complaint deleted successfully" });
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };

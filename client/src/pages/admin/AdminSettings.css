@@ -1,0 +1,65 @@
+.admin-settings-container.appearance-only {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0;
+}
+
+.appearance-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 800px;
+}
+
+.appearance-label {
+  font-size: 18px;
+  font-weight: 500;
+  color: #475569; /* Slate 600 */
+}
+
+.appearance-select {
+  width: 100%;
+  padding: 14px 20px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1; /* Slate 300 */
+  border-radius: 12px;
+  font-size: 16px;
+  color: #1e293b;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 18px;
+  transition: all 0.2s;
+}
+
+.appearance-select:focus {
+  border-color: #f97316; /* Orange 500 - matching screenshot vibe */
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+}
+
+/* Dark Mode Overrides */
+.dark .appearance-select {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+.dark .appearance-label {
+  color: #94a3b8;
+}
+
+.dark .appearance-select:focus {
+  border-color: #fb923c;
+}
+
+.animated-fade {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -8,8 +8,8 @@ const {
 
 const { protect, checkRole } = require("../middleware/auth");
 
-router.post("/admin/send-alert", sendAreaAlert);
-router.get("/user", getUserNotifications);
-router.put("/:id/read", markAsRead);
+router.post("/admin/send-alert", checkRole(["admin"]), sendAreaAlert);
+router.get("/user", protect, getUserNotifications);
+router.put("/:id/read", protect, markAsRead);
 
 module.exports = router;

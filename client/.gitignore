@@ -1,2 +1,5 @@
 .env
 node_modules
+.env.admin
+.env.department
+.env.user

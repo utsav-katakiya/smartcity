@@ -181,21 +181,6 @@ select option {
   color: #ffffff;
 }
 
-/* Scrollbar styling for dropdown */
-.select-items::-webkit-scrollbar {
-  width: 6px;
-}
-.select-items::-webkit-scrollbar-track {
-  background: transparent;
-}
-.select-items::-webkit-scrollbar-thumb {
-  background: var(--glass-border);
-  border-radius: 10px;
-}
-.select-items::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
 .chevron {
   width: 10px;
   height: 10px;
@@ -206,32 +191,26 @@ select option {
   margin-left: 10px;
 }
 
-.chevron.up {
-  transform: rotate(-135deg);
-}
+.chevron.up { transform: rotate(-135deg); }
 
 /* TEXTAREA */
-textarea {
-  min-height: 140px;
-  resize: vertical;
-}
+textarea { min-height: 140px; resize: vertical; }
 
-/* MAP STYLES */
 .mapContainer {
   width: 100%;
-  margin-top: 10px;
+  margin: 15px 0 25px; /* Added breathing space */
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--glass-border);
   position: relative;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05); /* Soft inner shadow */
 }
 
 .complaintMap {
-  height: 350px;
+  height: 300px; /* Reduced default height */
   width: 100%;
-  z-index: 5;
+  z-index: 1;
 }
-
 
 .addressField {
   background: rgba(0,0,0,0.03) !important;
@@ -243,35 +222,8 @@ textarea {
   min-height: 80px !important;
 }
 
-.loadingHint {
-  font-size: 13px;
-  color: var(--primary);
-  margin-bottom: 10px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.addressHint {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: -8px;
-  margin-bottom: 20px;
-}
-
-.dark .addressField {
-  background: rgba(255,255,255,0.03) !important;
-}
-
-.formGroup h3 {
-  margin-top: 25px;
-}
-
 /* MODERN UPLOAD BOX */
-.uploadContainer {
-  margin-top: 15px;
-}
+.uploadContainer { margin-top: 15px; }
 
 .uploadBox {
   width: 100%;
@@ -293,44 +245,10 @@ textarea {
 .uploadBox:hover {
   border-color: var(--primary);
   background: rgba(59, 130, 246, 0.05);
-  transform: translateY(-2px);
 }
 
-.uploadBox .cameraIcon {
-  width: 48px;
-  height: 48px;
-  color: var(--text-muted);
-  transition: all 0.3s ease;
-}
-
-.uploadBox:hover .cameraIcon {
-  transform: scale(1.1);
-  color: var(--primary);
-}
-
-.uploadBox h4 {
-  color: var(--text-primary);
-  margin: 0;
-  font-size: 16px;
-}
-
-.uploadBox p {
-  color: var(--text-muted);
-  font-size: 13px;
-  margin: 0;
-}
-
-.imagePreviewWrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.imagePreview {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.imagePreviewWrapper { width: 100%; height: 100%; position: relative; }
+.imagePreview { width: 100%; height: 100%; object-fit: cover; }
 
 .removeImgBtn {
   position: absolute;
@@ -345,22 +263,10 @@ textarea {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: none;
-  font-size: 14px;
   z-index: 20;
-  transition: var(--transition-fast);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
-.removeImgBtn:hover {
-  background: #ef4444;
-  transform: scale(1.1);
-}
-
-.hiddenInput {
-  display: none;
-}
-
+.hiddenInput { display: none; }
 
 /* SUBMIT BUTTON */
 .submitBtn {
@@ -383,33 +289,24 @@ textarea {
   box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
 }
 
-/* MESSAGE */
-.successMsg {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 16px;
-  color: #34d399;
-  background: rgba(16, 185, 129, 0.1);
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  animation: fadeIn 0.3s ease;
-}
-
-.errorMsg {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 16px;
-  color: #f87171;
-  background: rgba(239, 68, 68, 0.1);
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  animation: fadeIn 0.3s ease;
-}
-
 /* RESPONSIVE */
-@media(max-width: 768px) {
+@media (max-width: 900px) {
+  .complaintCard { padding: 30px; }
+}
+
+@media (max-width: 768px) {
   .addComplaintPage { padding: 40px 15px; }
-  .complaintCard { padding: 24px; }
+  .complaintCard { padding: 25px; border-radius: 15px; }
+  .complaintCard h2 { font-size: 26px; }
+  .complaintMap { height: 240px; }
+  .uploadBox { height: 160px; }
+  .submitBtn { padding: 14px; font-size: 16px; }
+  .sub { font-size: 14px; margin-bottom: 25px; }
+}
+
+@media (max-width: 480px) {
+  .complaintCard { padding: 20px; }
+  .complaintCard h2 { font-size: 22px; }
+  .section { margin-bottom: 20px; }
+  .complaintMap { height: 200px; }
 }

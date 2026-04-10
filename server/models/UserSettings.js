@@ -13,6 +13,8 @@ const UserSettingsSchema = new mongoose.Schema({
   defaultCategoryFilter: { type: String, default: "All" },
   defaultStatusFilter: { type: String, default: "All" },
   refreshInterval: { type: Number, default: 15 },
+  city: { type: String, default: "" },
+  area: { type: String, default: "" },
   shareAnonymousUsageData: { type: Boolean, default: false }
 }, { timestamps: true });
 

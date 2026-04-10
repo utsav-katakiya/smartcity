@@ -61,27 +61,33 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
   background: var(--glass-bg);
-  padding: 16px 20px;
+  padding: 12px 25px;
   border: 1px solid var(--glass-border);
   border-radius: 14px;
+  min-height: 64px;
+  position: relative; /* Anchor for absolute elements */
 }
 
 .search-field {
-
   position: relative;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin: 0;
 }
 
 .search-field input {
-  
-  padding: 12px 16px 12px 40px;
-  background: var(--bg-secondary);
+  padding: 0 16px 0 40px;
+  background: var(--bg-main);
   border: 1px solid var(--glass-border);
   border-radius: 10px;
-  color: white;
+  color: var(--text-primary);
   font-size: 14px;
+  height: 44px;
   transition: 0.3s;
+  width: 320px;
 }
 
 .search-field input:focus {
@@ -101,9 +107,10 @@
 .filters-field {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex: 1;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  height: 44px;
 }
 
 .filter-select {
@@ -235,32 +242,45 @@
 .assign-cell {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  min-width: 200px; /* Slightly increased to fit button without wrapping */
+  align-items: stretch;
+  gap: 6px;
+  min-width: 220px;
+  height: 38px;
+  margin: 0;
+  padding: 0;
 }
 
 .assign-select {
-  padding: 6px 10px;
+  padding: 0 10px;
   background: var(--bg-main);
   border: 1px solid var(--glass-border);
-  color: white;
+  color: var(--text-primary);
   border-radius: 8px;
-  font-size: 12px;
-  flex: 1; /* Take available space */
+  font-size: 13px;
+  flex: 1;
+  height: 100%;
+  outline: none;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .btn-assign-small {
-  padding: 4px 10px;
+  padding: 0 14px;
+  height: 100%;
   background: var(--primary);
   color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 11px;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: 0.2s;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .btn-assign-small:hover {
@@ -323,29 +343,119 @@
   .action-row {
     flex-direction: column;
     align-items: stretch;
+    padding: 15px;
   }
-  .search-field {
-    flex: 1;
-  }
+  .search-field { width: 100%; }
+  .search-field input { width: 100%; }
   .filters-field {
     justify-content: flex-start;
     flex-wrap: wrap;
+    height: auto;
+    padding-top: 10px;
   }
+
+  /* Table to Card Update */
+  .table-wrapper {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .admin-table, 
+  .admin-table thead, 
+  .admin-table tbody, 
+  .admin-table th, 
+  .admin-table td, 
+  .admin-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table tr {
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: var(--shadow-main);
+  }
+
+  .admin-table td {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 12px 0;
+    padding-left: 45%;
+    position: relative;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 45px;
+  }
+
+  .admin-table td:last-child {
+    border-bottom: none;
+    padding-top: 20px;
+    justify-content: center;
+    padding-left: 0;
+  }
+
+  .admin-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 40%;
+    text-align: left;
+    font-weight: 700;
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .assign-cell {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .address-text {
+    max-width: 100% !important;
+    text-align: right;
+  }
+}
+
+@media (max-width: 600px) {
+  .filters-field {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+  .custom-select-admin, .custom-dept-admin, .custom-status-admin, .custom-priority-admin {
+    min-width: unset;
+    width: 100%;
+  }
+  .select-header-admin { min-width: unset; width: 100%; }
 }
 
 /* CUSTOM ADMIN DROPDOWN (MATCHING USER SIDE) */
 
 .custom-select-admin, .custom-dept-admin, .custom-status-admin, .custom-priority-admin {
   position: relative;
-  min-width: 180px;
+  min-width: 140px;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  height: 44px;
 }
 
 .select-header-admin {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 14px;
+  padding: 0 14px;
   background: var(--bg-secondary);
   border: 1px solid var(--glass-border);
   border-radius: 10px;
@@ -353,7 +463,10 @@
   color: var(--text-secondary);
   cursor: pointer;
   transition: 0.2s ease;
-  min-width: 170px;
+  min-width: 140px;
+  height: 44px;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .select-header-admin:hover {
@@ -437,4 +550,195 @@
 .chevron-admin.up {
   transform: rotate(-135deg);
   margin-top: 3px;
+}
+/* MODAL ENHANCEMENTS */
+.admin-modal-content {
+  background: var(--bg-main) !important;
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  animation: modalSlideUp 0.3s ease-out;
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+.modal-image-new {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid var(--glass-border);
+}
+
+.modal-stats-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-main-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.modal-category-sub {
+  color: var(--primary-glow);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.modal-desc-full {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 25px;
+}
+
+.locationBox-modal {
+  background: var(--glass-hover);
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid var(--glass-border);
+  margin-bottom: 25px;
+}
+
+.locationBox-modal h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 8px;
+}
+
+.addr-wrap p, .coord-wrap p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+/* TIMELINE MODAL */
+.timeline-modal {
+  display: flex;
+  justify-content: space-between;
+  background: var(--glass-hover);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.step-modal {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  position: relative;
+}
+
+.step-modal.active {
+  color: var(--primary-glow);
+}
+
+.step-modal::before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: var(--bg-main);
+  border: 2px solid var(--glass-border);
+  border-radius: 50%;
+  margin: 0 auto 8px;
+}
+
+.step-modal.active::before {
+  background: var(--primary);
+  border-color: var(--primary-glow);
+}
+
+.modal-footer-new {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.btn-delete-modal {
+  background: rgba(244, 63, 94, 0.1);
+  color: #f43f5e;
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-delete-modal:hover {
+  background: #f43f5e;
+  color: white;
+}
+
+.modal-submission-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* BACK BUTTON & HEADER STYLES (Admin Detail) */
+.admin-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.back-btn-mini {
+  background: var(--glass-hover);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.back-btn-mini:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: translateX(-5px);
+}
+
+.admin-tag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.05);
+  padding: 4px 10px;
+  border-radius: 6px;
 }

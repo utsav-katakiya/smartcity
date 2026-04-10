@@ -4,6 +4,6 @@ const router = express.Router();
 const { getDashboardAnalytics } = require("../controllers/dashboardController");
 const { protect } = require("../middleware/auth");
 
-router.get("/analytics", getDashboardAnalytics);
+router.get("/analytics", protect, getDashboardAnalytics);
 
 module.exports = router;

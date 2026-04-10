@@ -23,10 +23,11 @@ const MyComplaints = () => {
     try {
       const token = await getToken();
       const res = await fetch(
-        "http://localhost:5000/api/complaints", // Backend now uses token to identify user
+        `http://localhost:5000/api/complaints/user/${user.id}`, // Backend now uses token to identify user
         {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            "X-Clerk-User-Id": user.id
           }
         }
       );
@@ -84,8 +85,8 @@ const MyComplaints = () => {
 
   const stats = {
     total: complaints.length,
-    pending: complaints.filter(c => c.status === "Submitted" || c.status === "Pending").length,
-    inProgress: complaints.filter(c => c.status === "In Progress").length,
+    pending: complaints.filter(c => c.status === "Submitted" || c.status === "Pending" || c.status === "None").length,
+    inProgress: complaints.filter(c => c.status === "In Progress" || c.status === "InProgress").length,
     resolved: complaints.filter(c => c.status === "Resolved").length,
   };
 
@@ -224,7 +225,7 @@ const MyComplaints = () => {
 
                   <div className="cardBottom">
                     <span className={`statusBadge ${item.status.replace(" ", "")}`}>
-                      {item.status}
+                      {item.status === "In Progress" ? "🛠️ Working" : item.status}
                     </span>
                     <span className={`priorityBadge ${item.priority || "LOW"}`}>
                       {item.priority || "LOW"}

@@ -22,7 +22,7 @@ connectDB();
 // ================= MIDDLEWARE =================
 app.use(cors());
 
-// 🔥 ये यहीं होना चाहिए (app के बाद)
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
